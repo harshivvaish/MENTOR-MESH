@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Back - Alumni Connect</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #a855f7; 
+            --primary-color-rgb: 168, 85, 247;
+            --primary-yellow-rgb: 245, 158, 11;
+            --primary-blue-rgb: 59, 130, 246;
+            --primary-yellow: #f59e0b;
+            --primary-blue: #3b82f6;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--font-family); 
+            background-color: var(--bg-dark); 
+            color: var(--text-primary); 
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        h1,h2,h3 { line-height: 1.2; margin-bottom: 1rem; }
+        h1 { font-size: 2.8rem; font-weight: 700; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+        /* --- Refined Buttons --- */
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:12px 24px;border-radius:8px;font-weight:600;transition:all .3s ease;border:none;cursor:pointer;position:relative;overflow:hidden;text-decoration:none}.btn-primary{background-color:var(--primary-color);color:#fff;box-shadow:0 0 8px rgba(var(--primary-color-rgb),.4)}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 15px rgba(var(--primary-color-rgb),.6)}.btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(120deg,rgba(255,255,255,0) 0,rgba(255,255,255,.15) 50%,rgba(255,255,255,0) 100%);transform:skewX(-25deg);transition:left .7s ease}.btn-primary:hover::before{left:150%}.btn-secondary{background-color:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-color)}.btn-secondary:hover{background-color:var(--border-color);transform:translateY(-3px)}
+        
+        /* --- Refined Navbar & Footer --- */
+        .navbar{padding:1.5rem 0;z-index:1000;border-bottom:1px solid var(--border-color)}.navbar .container{display:flex;justify-content:space-between;align-items:center}.logo{font-size:1.5rem;font-weight:700;display:flex;align-items:center;gap:.5rem}.logo i{color:var(--primary-color)}
+        /* NEW: Pro "Back to Home" link */
+        .back-to-home {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .back-to-home:hover {
+            color: var(--primary-color);
+        }
+        .footer{padding:2rem 0;background-color:#0c1222;text-align:center;font-size:.9rem;color:var(--text-secondary);margin-top:auto}.footer .logo{font-size:1.2rem;margin-bottom:.5rem;display:inline-flex}.footer p{margin-bottom:0}
+        
+        /* Theme Switcher */
+        .theme-switcher{position:fixed;bottom:2rem;left:2rem;z-index:1001;background:var(--bg-card);border:1px solid var(--border-color);border-radius:50px;padding:.5rem;display:flex;gap:.5rem;box-shadow:0 5px 15px rgba(0,0,0,.3)}.theme-switcher .color-option{width:25px;height:25px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .3s ease}.theme-switcher .color-option:hover,.theme-switcher .color-option.active{border-color:var(--primary-color)}
+
+        /* --- Page Specific Styles: Role Selection --- */
+        .role-selection-section{flex-grow:1;display:flex;align-items:center;justify-content:center;padding:3rem 0;text-align:center}.role-selection-content{max-width:750px;width:100%}.role-selection-content h1{font-size:2.5rem;margin-bottom:.5rem}.role-selection-content p{font-size:1.1rem;margin-bottom:3rem}.role-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+        
+        /* NEW: Card entrance animation */
+        @keyframes cardFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .role-card{
+            background-color:var(--bg-card);
+            border:1px solid var(--border-color);
+            border-radius:12px;
+            padding:1.75rem 1.25rem;
+            display:flex;flex-direction:column;
+            align-items:center;
+            justify-content:space-between;
+            transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+            text-align:center;
+            cursor:pointer;
+            /* Animation applied */
+            opacity: 0; /* Start hidden */
+            animation: cardFadeInUp 0.6s ease-out forwards;
+        }
+        /* Staggered delay */
+        .role-card:nth-child(1) { animation-delay: 0.2s; }
+        .role-card:nth-child(2) { animation-delay: 0.4s; }
+        .role-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .role-card:hover{transform:translateY(-8px);border-color:rgba(var(--primary-color-rgb),.5)}.role-card.selected{transform:translateY(-8px) scale(1.02);border-color:var(--primary-color);box-shadow:0 10px 20px rgba(0,0,0,.2),0 0 15px rgba(var(--primary-color-rgb),.5)}.role-card i{font-size:2.8rem;margin-bottom:1.25rem;transition:transform .3s ease}.role-card:hover i,.role-card.selected i{transform:scale(1.15) rotate(5deg)}.role-card.student i{color:var(--primary-blue)}.role-card.alumni i{color:var(--primary-yellow)}.role-card.admin i{color:var(--primary-color)}.role-card h3{font-size:1.3rem;margin-bottom:.5rem}.role-card p{font-size:.9rem;color:var(--text-secondary);margin-bottom:1.5rem;flex-grow:1}
+        .role-card.student .btn-primary{background-color:var(--primary-blue);box-shadow:0 0 8px rgba(var(--primary-blue-rgb),.4)}.role-card.student .btn-primary:hover{box-shadow:0 0 15px rgba(var(--primary-blue-rgb),.6)}
+        .role-card.alumni .btn-primary{background-color:var(--primary-yellow);box-shadow:0 0 8px rgba(var(--primary-yellow-rgb),.4)}.role-card.alumni .btn-primary:hover{box-shadow:0 0 15px rgba(var(--primary-yellow-rgb),.6)}
+
+        /* Mobile Adjustments */
+        @media (max-width:800px){.role-cards-grid{grid-template-columns:1fr}}.media (max-width:768px){.nav-links,.auth-buttons .btn-text{display:none}}
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <div class="logo"><i class="fas fa-graduation-cap"></i> Alumni Connect</div>
+            <a href="http://127.0.0.1:5000/#" class="back-to-home">
+                <i class="fas fa-arrow-left"></i>
+                <button style="background: none; border: none; font-size: larger;" onclick="location.href='http://127.0.0.1:5000/#'">Back to Home</button>
+            </a>
+        </div>
+    </header>
+
+    <main class="role-selection-section">
+        <div class="container role-selection-content">
+            <h1>Welcome Back</h1>
+            <p>Choose your role to access your personalized dashboard</p>
+
+            <div class="role-cards-grid">
+                <div class="role-card student">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>Student</h3>
+                    <p>Find mentors, jobs, and networking opportunities to kickstart your career.</p>
+                    <a href="#" class="btn btn-primary"><button onclick="location.href='/student_login'" class="btn btn-primary">Continue</button> <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="role-card alumni">
+                    <i class="fas fa-users"></i>
+                    <h3>Alumni</h3>
+                    <p>Share experiences, mentor students, and give back to the community.</p>
+                    <a href="#" class="btn btn-primary"><button onclick="location.href='/alumni_login'" class="btn btn-primary">Continue</button> <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="role-card admin">
+                    <i class="fas fa-building"></i>
+                    <h3>Institution</h3>
+                    <p>Manage the platform, create events, and view engagement analytics.</p>
+                    <a href="#" class="btn btn-primary"><button onclick="location.href='/institute_login'" class="btn btn-primary">Continue</button> <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer"><div class="container"><div class="logo"><i class="fas fa-graduation-cap"></i> Alumni Connect</div><p>&copy; 2025 Alumni Connect. All rights reserved.</p></div></footer>
+    
+    <div class="theme-switcher"><span class="color-option" style="background-color:#3b82f6" data-color="#3b82f6"></span><span class="color-option" style="background-color:#ef4444" data-color="#ef4444"></span><span class="color-option" style="background-color:#22c55e" data-color="#22c55e"></span><span class="color-option active" style="background-color:#a855f7" data-color="#a855f7"></span></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme Color Switcher Logic
+            const themeSwitcher = document.querySelector('.theme-switcher');
+            if (themeSwitcher) {
+                const colorOptions = themeSwitcher.querySelectorAll('.color-option');
+                themeSwitcher.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('color-option')) {
+                        const newColor = e.target.getAttribute('data-color');
+                        document.documentElement.style.setProperty('--primary-color', newColor);
+                        
+                        let newColorRGB;
+                        switch (newColor) {
+                            case '#3b82f6': newColorRGB = '59, 130, 246'; break;
+                            case '#ef4444': newColorRGB = '239, 68, 68'; break;
+                            case '#22c55e': newColorRGB = '34, 197, 94'; break;
+                            case '#a855f7': newColorRGB = '168, 85, 247'; break;
+                            default: newColorRGB = '168, 85, 247';
+                        }
+                        document.documentElement.style.setProperty('--primary-color-rgb', newColorRGB);
+
+                        colorOptions.forEach(opt => opt.classList.remove('active'));
+                        e.target.classList.add('active');
+                    }
+                });
+            }
+
+            // Role Card Selection Logic
+            const roleCards = document.querySelectorAll('.role-card');
+            if (roleCards.length > 0) {
+                roleCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        roleCards.forEach(c => c.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

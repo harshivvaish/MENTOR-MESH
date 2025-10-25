@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Connect - Final Polish</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* --- Global Styles & Variables --- */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Animation to hide the entire screen after the panels slide out */
+            /* This starts after 3.5s: 2.5s for logo/wait + 1s for panel slide */
+            animation: hideSplash 0s forwards 3.5s;
+        }
+
+        .splash-panel {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: #0c1222; /* Dark background color */
+            
+            /* Animation to slide the panels out */
+            animation-duration: 1s; /* The slide duration */
+            animation-fill-mode: forwards;
+            animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+            animation-delay: 2.5s; /* Start sliding 2.5s after load (after logo animation) */
+        }
+
+        .splash-panel.left {
+            left: 0;
+            animation-name: slidePanelLeft;
+        }
+        .splash-panel.right {
+            right: 0;
+            animation-name: slidePanelRight;
+        }
+
+        .splash-logo {
+            position: relative;
+            z-index: 10000;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem); /* Responsive font size */
+            font-weight: 800;
+            color: #fff;
+            opacity: 1;
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 2. LOGO ANIMATION (Staggered Fade-in) --- */
+        /* ---------------------------------------------------- */
+        
+        .splash-logo span {
+            opacity: 0;
+            display: inline-block;
+            animation: letterFadeIn 0.5s ease-out forwards;
+        }
+
+        /* Keyframe animation for the letters appearing */
+        @keyframes letterFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered delay for each letter to animate one by one */
+        /* Alumni Connect */
+        .splash-logo span:nth-child(1) { animation-delay: 0.1s; } /* A */
+        .splash-logo span:nth-child(2) { animation-delay: 0.2s; } /* l */
+        .splash-logo span:nth-child(3) { animation-delay: 0.3s; } /* u */
+        .splash-logo span:nth-child(4) { animation-delay: 0.4s; } /* m */
+        .splash-logo span:nth-child(5) { animation-delay: 0.5s; } /* n */
+        .splash-logo span:nth-child(6) { animation-delay: 0.6s; } /* i */
+        .splash-logo span:nth-child(7) { animation-delay: 0.7s; } /* Space */
+        .splash-logo span:nth-child(8) { animation-delay: 0.8s; } /* C */
+        .splash-logo span:nth-child(9) { animation-delay: 0.9s; } /* o */
+        .splash-logo span:nth-child(10) { animation-delay: 1.0s; } /* n */
+        .splash-logo span:nth-child(11) { animation-delay: 1.1s; } /* n */
+        .splash-logo span:nth-child(12) { animation-delay: 1.2s; } /* e */
+        .splash-logo span:nth-child(13) { animation-delay: 1.3s; } /* c */
+        .splash-logo span:nth-child(14) { animation-delay: 1.4s; } /* t */
+
+
+        /* ---------------------------------------------------- */
+        /* --- 3. EXIT ANIMATIONS (Pure CSS Sequencing) --- */
+        /* ---------------------------------------------------- */
+
+        /* Keyframe for the left panel to slide out */
+        @keyframes slidePanelLeft {
+            to { transform: translateX(-100%); }
+        }
+
+        /* Keyframe for the right panel to slide out */
+        @keyframes slidePanelRight {
+            to { transform: translateX(100%); }
+        }
+
+        /* Keyframe to completely hide the entire splash screen element */
+        @keyframes hideSplash {
+            to {
+                /* Completely hide the element and stop it from capturing clicks */
+                visibility: hidden;
+                pointer-events: none;
+                opacity: 0;
+            }
+        }
+
+        :root {
+            --primary-color: #a855f7; 
+            --primary-yellow: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-family); background-color: var(--bg-dark); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        h1,h2,h3 { line-height: 1.2; margin-bottom: 1rem; }
+        h1 { font-size: 3.5rem; font-weight: 700; }
+        h2 { font-size: 2.5rem; font-weight: 600; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+        a { color: var(--primary-color); text-decoration: none; }
+        .highlight-blue { color: var(--primary-color); }
+        .highlight-yellow { color: var(--primary-yellow); }
+
+        /* --- Glowing Buttons --- */
+        .btn{display:inline-block;padding:12px 24px;border-radius:8px;font-weight:600;transition:all .3s ease;border:none;cursor:pointer;position:relative;overflow:hidden}.btn-primary{background-color:var(--primary-color);color:#fff;box-shadow:0 0 5px var(--primary-color),0 0 10px var(--primary-color)}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 20px var(--primary-color),0 0 40px var(--primary-color)}.btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(120deg,rgba(255,255,255,0) 0,rgba(255,255,255,.2) 50%,rgba(255,255,255,0) 100%);transform:skewX(-25deg);transition:left .7s ease}.btn-primary:hover::before{left:150%}.btn-secondary{background-color:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-color)}.btn-secondary:hover{background-color:var(--border-color);transform:translateY(-3px)}
+        
+        /* --- Header & Hero Section --- */
+        .navbar{padding:1.5rem 0;position:sticky;top:0;z-index:1000;transition:background-color .4s ease,backdrop-filter .4s ease,border-color .4s ease;border-bottom:1px solid transparent}.navbar.scrolled{background-color:rgba(15,23,42,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-color)}.navbar .container{display:flex;justify-content:space-between;align-items:center}.logo{font-size:1.5rem;font-weight:700;display:flex;align-items:center;gap:.5rem}.logo i{color:var(--primary-color)}.nav-links a{color:var(--text-secondary);margin:0 1rem;font-weight:500;transition:color .3s ease}.nav-links a:hover{color:var(--text-primary)}
+        .hero-section{padding:8rem 0;text-align:center;position:relative;overflow:hidden;min-height:90vh;display:flex;align-items:center;justify-content:center}.hero-image-container{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background:var(--bg-dark)}.hero-image-container img{width:100%;height:100%;object-fit:cover;opacity:.15;animation:slow-zoom 25s infinite alternate ease-in-out}@keyframes slow-zoom{from{transform:scale(1)}to{transform:scale(1.1)}}.hero-content{position:relative;z-index:1}.stats-grid{display:flex;justify-content:center;gap:1.5rem;margin-bottom:3rem}.stat-card{background-color:rgba(30,41,59,.85);backdrop-filter:blur(5px);padding:1.5rem;border-radius:12px;border:1px solid var(--border-color);min-width:180px;transition:transform .4s ease,box-shadow .4s ease,border-color .4s ease;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,.2)}.stat-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 12px 25px rgba(0,0,0,.3);border-color:var(--primary-color)}.stat-card.yellow-border{border-top:4px solid var(--primary-yellow)}.stat-card i{font-size:1.5rem;color:var(--primary-color);margin-bottom:.5rem}.stat-card .fa-trophy{color:var(--primary-yellow)}
+        
+        /* --- Continuous & Hover Animations --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        .features-section{padding:6rem 0;background-color:#0c1222}.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}.feature-card{background-color:var(--bg-card);padding:2rem;border-radius:12px;border:1px solid var(--border-color);text-align:center;transition:transform .4s ease,box-shadow .4s ease; animation: float 7s ease-in-out infinite;}.feature-card:nth-child(2){animation-delay:1.8s;}.feature-card:nth-child(3){animation-delay:3.5s;}.feature-card:nth-child(4){animation-delay:0.5s;}.feature-card:hover{transform:translateY(-12px) scale(1.03);box-shadow:0 20px 40px rgba(0,0,0,.4), 0 0 25px var(--primary-color); animation-play-state: paused;}.feature-card i{font-size:2rem;color:var(--primary-color);margin-bottom:1rem}.feature-card.highlighted-card{background:var(--primary-color);color:#fff}
+        .content-section{padding:6rem 0;overflow:hidden}.content-section .container{display:flex;align-items:center;gap:3rem;flex-direction:row}.content-section.alt .container{flex-direction:row-reverse}
+        .content-image { border-radius: 12px; overflow: hidden; }
+        .content-image img{width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.4); transition: transform 0.4s ease;}
+        .content-image:hover img { transform: scale(1.05); }
+        .benefit-list{list-style:none;margin-top:1.5rem}.benefit-list li{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem}.benefit-list i{color:var(--primary-color);font-size:1.2rem;margin-top:5px}.benefit-list p{margin:0}
+        .testimonials-section{padding:6rem 0;position:relative}.testimonial-slider{max-width:800px;margin:0 auto;position:relative}.testimonial-slides-container{overflow:hidden;border-radius:12px}.testimonial-slides{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}.testimonial-slide{flex:0 0 100%;padding:2.5rem;background-color:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;display:flex;gap:2rem;align-items:center;position:relative;overflow:hidden}.testimonial-slide::before{content:'\f10d';font-family:"Font Awesome 5 Free";font-weight:900;position:absolute;top:1rem;right:1rem;font-size:6rem;color:var(--border-color);opacity:.5;z-index:0}.testimonial-author{text-align:center;flex-shrink:0;z-index:1}.testimonial-author img{width:80px;height:80px;border-radius:50%;border:3px solid var(--primary-color);margin-bottom:1rem;object-fit:cover;box-shadow:0 5px 15px rgba(0,0,0,.2)}.testimonial-author p{margin:0;line-height:1.3}.testimonial-author .name{font-weight:600;color:var(--text-primary)}.testimonial-author .title{font-size:.9rem;color:var(--text-secondary)}.testimonial-content{z-index:1}.testimonial-content p{font-size:1.1rem;font-style:italic;color:var(--text-primary)}.slider-nav{margin-top:1.5rem;display:flex;justify-content:center;gap:1rem}.slider-btn{background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-secondary);width:45px;height:45px;border-radius:50%;cursor:pointer;font-size:1.2rem;transition:all .3s ease}.slider-btn:hover{background:var(--primary-color);color:#fff}
+        .faq-section{padding:6rem 0;background-color:#0c1222}.faq-item{border-bottom:1px solid var(--border-color); transition: background-color 0.3s ease;}.faq-item:hover { background-color: rgba(255,255,255,0.03); }.faq-question{width:100%;background:0 0;border:none;text-align:left;padding:1.5rem 0;font-size:1.1rem;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center}.faq-question .icon{transition:transform .3s ease}.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease-out}.faq-item.active .faq-question .icon{transform:rotate(45deg)}
+        .footer{padding-top:4rem;background-color:#0c1222}.chat-button{position:fixed;bottom:2rem;right:2rem;width:60px;height:60px;border-radius:50%;background-color:var(--primary-color);color:#fff;border:none;font-size:1.5rem;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.2);transition:transform .3s ease,background-color .3s ease}.chat-button:hover{transform:scale(1.1)}
+        .scroll-reveal{opacity:0;transition:opacity .8s ease-out,transform .8s ease-out}.scroll-reveal.fade-in-up{transform:translateY(40px)}.scroll-reveal.visible{opacity:1;transform:translateY(0)}
+        .theme-switcher{position:fixed;bottom:2rem;left:2rem;z-index:1001;background:var(--bg-card);border:1px solid var(--border-color);border-radius:50px;padding:.5rem;display:flex;gap:.5rem;box-shadow:0 5px 15px rgba(0,0,0,.3)}.theme-switcher .color-option{width:25px;height:25px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .3s ease}.theme-switcher .color-option:hover,.theme-switcher .color-option.active{border-color:var(--primary-color)}
+        @media (max-width:768px){.nav-links,.auth-buttons .btn-text{display:none}; .testimonial-slide { flex-direction: column; text-align: center; }; .content-section .container, .content-section.alt .container { flex-direction: column-reverse; } }
+    </style>
+</head>
+<body>
+    <!-- SPLASH SCREEN STRUCTURE -->
+    <div class="splash-screen">
+        <div class="splash-panel left"></div>
+        <div class="splash-panel right"></div>
+        <h1 class="splash-logo">
+            <!-- Each letter is wrapped in a span for the staggered fade-in effect -->
+            <span>A</span><span>l</span><span>u</span><span>m</span><span>n</span><span>i</span><span> </span>
+            <span>C</span><span>o</span><span>n</span><span>n</span><span>e</span><span>c</span><span>t</span>
+        </h1>
+    </div>
+    <header class="navbar"><div class="container"><div class="logo"><i class="fas fa-graduation-cap"></i> Alumni Connect</div><nav class="nav-links"><a href="#features">Features</a><a href="#for-institutions">Institutions</a><a href="#for-students">Students</a></nav><div class="auth-buttons"><a location.href='/login' class="btn btn-text">Sign In</a><a style="padding: 0;" href="#"class="btn btn-primary"><button onclick="location.href='/welcome_back'" class="btn btn-primary">Get Started</button></a></div></div></header>
+
+    <main>
+        <section class="hero-section"><div class="hero-image-container"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" alt="Alumni connections"></div><div class="container"><div class="hero-content"><div class="stats-grid"><div class="stat-card"><i class="fas fa-users"></i><h3>2,847</h3><p>Active Alumni</p></div><div class="stat-card yellow-border"><i class="fas fa-user-graduate"></i><h3>1,256</h3><p>Current Students</p></div><div class="stat-card"><i class="fas fa-trophy"></i><h3>92%</h3><p>Success Rate</p></div></div><h1>Everything you need to <span class="highlight-blue">stay connected</span></h1><p class="subtitle">Powerful features designed to strengthen alumni relationships and create lasting impact.</p></div></div></section>
+        <section class="logo-marquee"><div class="track"><i class="fas fa-university" title="University Partner"></i><i class="fas fa-building" title="Corporate Partner"></i><i class="fas fa-handshake" title="Community Partner"></i><i class="fas fa-cogs" title="Tech Partner"></i><i class="fas fa-chart-line" title="Finance Partner"></i><i class="fas fa-leaf" title="Eco Partner"></i><i class="fas fa-university" title="University Partner"></i><i class="fas fa-building" title="Corporate Partner"></i><i class="fas fa-handshake" title="Community Partner"></i><i class="fas fa-cogs" title="Tech Partner"></i><i class="fas fa-chart-line" title="Finance Partner"></i><i class="fas fa-leaf" title="Eco Partner"></i></div></section>
+        <section id="features" class="features-section scroll-reveal fade-in-up"><div class="container"><div class="feature-grid"><div class="feature-card"><i class="fas fa-users"></i><h3>Alumni Directory</h3><p>Connect with alumni across industries and locations.</p></div><div class="feature-card"><i class="fas fa-calendar-alt"></i><h3>Events & Meetups</h3><p>Join networking events, workshops, and reunions.</p></div><div class="feature-card"><i class="fas fa-briefcase"></i><h3>Career Opportunities</h3><p>Access exclusive job postings and mentorship programs.</p></div><div class="feature-card"><i class="fas fa-heart"></i><h3>Give Back</h3><p>Support current students through donations.</p></div></div></div></section>
+        <section id="for-institutions" class="content-section scroll-reveal fade-in-up"><div class="container"><div class="content-image"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Institution Collaboration"></div><div class="content-text"><h2>Empower Your Institution</h2><p>Our platform provides powerful tools to help you build a thriving, engaged, and supportive alumni network that drives success for generations.</p><ul class="benefit-list"><li><i class="fas fa-chart-pie"></i><div><h4>Engagement Analytics</h4><p>Track alumni activity and measure the impact of your programs.</p></div></li><li><i class="fas fa-hand-holding-heart"></i><div><h4>Streamlined Fundraising</h4><p>Launch campaigns and manage donations with our integrated tools.</p></div></li><li><i class="fas fa-cogs"></i><div><h4>Effortless Management</h4><p>Simplify event organization and member communication.</p></div></li></ul></div></div></section>
+        <section id="for-students" class="content-section alt scroll-reveal fade-in-up"><div class="container"><div class="content-image"><img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop" alt="Students Learning"></div><div class="content-text"><h2>A Head Start For Your Career</h2><p>Connect with experienced alumni who have walked the path before you. Gain invaluable insights, mentorship, and opportunities to kickstart your professional journey.</p><ul class="benefit-list"><li><i class="fas fa-user-friends"></i><div><h4>Find a Mentor</h4><p>Get guidance from professionals in your desired field.</p></div></li><li><i class="fas fa-briefcase"></i><div><h4>Exclusive Internships</h4><p>Access job and internship postings shared by fellow alumni.</p></div></li><li><i class="fas fa-lightbulb"></i><div><h4>Gain Career Advice</h4><p>Learn from the real-world experiences of your seniors.</p></div></li></ul></div></div></section>
+        <section class="testimonials-section scroll-reveal fade-in-up"><div class="container"><div class="testimonial-slider"><div class="testimonial-slides-container"><div class="testimonial-slides"><div class="testimonial-slide"><div class="testimonial-author"><img src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=200&auto=format&fit=crop" alt="Author"><p class="name">Rohan Sharma</p><p class="title">'21 Graduate</p></div><div class="testimonial-content"><p>"Instrumental in helping me find my first job. The mentorship from a senior alumnus in my field was absolutely invaluable."</p></div></div><div class="testimonial-slide"><div class="testimonial-author"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" alt="Author"><p class="name">Priya Patel</p><p class="title">'14 Graduate</p></div><div class="testimonial-content"><p>"Organizing our 10-year reunion was a breeze thanks to the event management tools. It was wonderful to reconnect with so many old friends."</p></div></div><div class="testimonial-slide"><div class="testimonial-author"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop" alt="Author"><p class="name">Ankit Verma</p><p class="title">Current Student</p></div><div class="testimonial-content"><p>"As a student, getting advice and internship opportunities directly from alumni gave me a huge advantage. It's an amazing community."</p></div></div></div></div><div class="slider-nav"><button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button><button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button></div></div></div></section>
+        <section id="faq" class="faq-section scroll-reveal fade-in-up"><div class="container"><div class="faq-container"><div class="faq-item"><button class="faq-question">Is this platform free for alumni?<span class="icon fas fa-plus"></span></button><div class="faq-answer"><p>Yes, the platform is completely free for all registered alumni of the institution.</p></div></div><div class="faq-item"><button class="faq-question">How is my personal data protected?<span class="icon fas fa-plus"></span></button><div class="faq-answer"><p>We take data privacy very seriously. You have full control over what information is visible in your profile settings.</p></div></div><div class="faq-item"><button class="faq-question">Can I create a special interest group?<span class="icon fas fa-plus"></span></button><div class="faq-answer"><p>Absolutely! We encourage members to form groups based on interests, professions, or locations.</p></div></div></div></div></section>
+    </main>
+    <footer class="footer"><div class="container"><div class="footer-col logo-col"><div class="logo"><i class="fas fa-graduation-cap"></i> Alumni Connect</div><p>Connecting generations.</p></div><div class="footer-col"><h4>Platform</h4><ul><li><a href="#">Features</a></li><li><a href="#">Security</a></li></ul></div><div class="footer-col"><h4>Community</h4><ul><li><a href="#">Events</a></li><li><a href="#">Blog</a></li></ul></div><div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div></div></footer>
+    
+    <div class="theme-switcher"><span class="color-option" style="background-color:#3b82f6" data-color="#3b82f6"></span><span class="color-option" style="background-color:#ef4444" data-color="#ef4444"></span><span class="color-option" style="background-color:#22c55e" data-color="#22c55e"></span><span class="color-option active" style="background-color:#a855f7" data-color="#a855f7"></span></div>
+    <button class="chat-button"><i class="fas fa-comment-dots"></i></button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){const e=document.querySelector(".navbar");window.addEventListener("scroll",()=>{window.scrollY>50?e.classList.add("scrolled"):e.classList.remove("scrolled")});const t=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add("visible"),t.unobserve(e.target))})},{threshold:.1});document.querySelectorAll(".scroll-reveal").forEach(e=>t.observe(e));const o=document.querySelector(".testimonial-slides");if(o){const e=document.querySelectorAll(".testimonial-slide"),t=document.querySelector(".prev-btn"),n=document.querySelector(".next-btn");let c=0;const r=e.length,s=e=>{o.style.transform=`translateX(-${100*e}%)`,c=e};n.addEventListener("click",()=>{const e=(c+1)%r;s(e)}),t.addEventListener("click",()=>{const e=(c-1+r)%r;s(e)})}const n=document.querySelectorAll(".faq-item");n.forEach(e=>{const t=e.querySelector(".faq-question"),o=e.querySelector(".faq-answer");t.addEventListener("click",()=>{const t=e.classList.contains("active");n.forEach(e=>{e.classList.remove("active"),e.querySelector(".faq-answer").style.maxHeight=0}),t||(e.classList.add("active"),o.style.maxHeight=o.scrollHeight+"px")})});const c=document.querySelector(".theme-switcher");c.addEventListener("click",e=>{if(e.target.classList.contains("color-option")){const t=e.target.getAttribute("data-color");document.documentElement.style.setProperty("--primary-color",t),document.querySelectorAll(".color-option").forEach(e=>e.classList.remove("active")),e.target.classList.add("active")}})});
+    </script>
+</body>
+</html>

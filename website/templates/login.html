@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login form</title>
+    
+</head>
+
+<body>
+    <h2>login</h2>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                    <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+            
+        </div>
+            
+    {% endif %}
+    {% endwith%}
+    <form action="/login" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{form.email.label(for="email")}}
+            {{form.email(class="form-control", id="email")}}
+        </div>
+
+        <div class="form-group">
+            {{form.password.label(for="password")}}
+            {{form.password(class="form-control", id="password")}}
+        </div>
+        {{form.submit(class="btn btn-dark mt-4")}}
+    </form>
+</body>
+</html>

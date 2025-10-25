@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Alumni Connect</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        #name{
+            font-size: x-large;
+        }
+        :root {
+            --primary-color: #a855f7; 
+            --primary-color-rgb: 168, 85, 247;
+            --primary-yellow: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-main: #111827;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(51, 65, 85, 0.7);
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--font-family); 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        h1,h2,h3,h4 { line-height: 1.2; margin-bottom: 0.75rem; font-weight: 600;}
+        h1 { font-size: 1.8rem; }
+        h2 { font-size: 1.4rem; }
+        h3 { font-size: 1rem; }
+        h4 { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;}
+        p { margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.85rem; }
+        a { color: var(--primary-color); text-decoration: none; }
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:6px 14px;border-radius:6px;font-weight:600;font-size:0.85rem;transition:all .3s ease;border:none;cursor:pointer;text-decoration:none}.btn-primary{background-color:var(--primary-color);color:#fff;box-shadow:0 0 8px rgba(var(--primary-color-rgb),.4)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 15px rgba(var(--primary-color-rgb),.6)}.btn-secondary{background-color:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-color)}.btn-secondary:hover{background-color:var(--border-color);transform:translateY(-2px)}
+
+        .dashboard-layout { display: flex; min-height: 100vh; }
+
+        .sidebar{width:220px;background-color:var(--bg-dark);padding:1rem;display:flex;flex-direction:column;border-right:1px solid var(--border-color);position:fixed;height:100%}.sidebar-header{display:flex;align-items:center;gap:.75rem;margin-bottom:2rem}.sidebar-header .logo-icon{font-size:1.5rem;color:var(--primary-color)}.sidebar-header h2{font-size:1rem;margin:0;font-weight:600}.sidebar-nav{display:flex;flex-direction:column;gap:.25rem}.sidebar-nav a{display:flex;align-items:center;gap:1rem;padding:.6rem .75rem;border-radius:6px;color:var(--text-secondary);font-weight:500;font-size:.9rem;transition:all .3s ease}.sidebar-nav a i{width:18px;font-size:.9rem}.sidebar-nav a:hover{background-color:var(--bg-card);color:var(--text-primary);transform:translateX(5px)}.sidebar-nav a.active{background-color:var(--primary-color);color:#fff;box-shadow:0 0 15px rgba(168, 85, 247, .5);transform:translateX(5px)}.sidebar-footer{margin-top:auto}
+        @keyframes progress-animation{from{--progress:0}to{--progress:75}}.progress-circle{--progress:0;width:90px;height:90px;border-radius:50%;display:grid;place-items:center;margin:0 auto 1rem;background:radial-gradient(closest-side,var(--bg-dark) 79%,transparent 80% 100%),conic-gradient(var(--primary-color) calc(var(--progress) * 1%),var(--bg-main) 0);animation:progress-animation 1.5s .5s ease-out forwards}.progress-circle .progress-value{font-size:1.5rem;font-weight:600}.circular-profile-widget{background-color:var(--bg-card);backdrop-filter:blur(10px);border-radius:8px;padding:1.25rem 1rem;text-align:center}.circular-profile-widget h4{font-size:.9rem;margin:0;color:var(--text-primary)}.circular-profile-widget p{font-size:.8rem;margin:.25rem 0 1rem 0}.complete-profile-btn{background:0 0;border:1px solid var(--primary-color);color:var(--primary-color);width:100%;display:block;padding:6px;border-radius:6px;font-weight:500;font-size:.85rem;transition:all .3s ease}.complete-profile-btn:hover{background:var(--primary-color);color:#fff}
+        
+        .main-content{flex-grow:1;margin-left:220px;padding:1rem}.main-header{display:flex;justify-content:space-between;align-items:center;background-color:var(--bg-dark);padding:.75rem 1rem;border-radius:8px;border:1px solid var(--border-color);margin-bottom:1rem}.header-search{display:flex;align-items:center;background:var(--bg-main);padding:0 .5rem;border-radius:6px}.header-search i{color:var(--text-secondary)}.header-search input{background:none;border:none;outline:none;color:var(--text-primary);padding:.5rem;font-size:.9rem}.header-nav a{color:var(--text-secondary);margin:0 1rem;font-weight:500;font-size:.9rem;padding:.5rem 0;border-bottom:2px solid transparent;transition:color .3s,border-color .3s}.header-nav a:hover{color:var(--text-primary)}.header-nav a.active{color:var(--primary-color);border-bottom-color:var(--primary-color)}.header-actions{display:flex;align-items:center;gap:1.25rem}.header-actions i{font-size:1.1rem;color:var(--text-secondary);cursor:pointer;transition:color .3s}.header-actions i:hover{color:var(--text-primary)}
+        
+        /* NEW: Profile Dropdown */
+        .profile-dropdown{position:relative}.profile-pic{width:32px;height:32px;border-radius:50%;border:2px solid var(--primary-color);cursor:pointer}.profile-dropdown-menu{position:absolute;top:calc(100% + 10px);right:0;background-color:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;width:200px;box-shadow:0 10px 20px rgba(0,0,0,.2);padding:.5rem;z-index:100;opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}.profile-dropdown-menu.active{opacity:1;transform:translateY(0);pointer-events:auto}.profile-dropdown-menu a{display:flex;align-items:center;gap:1rem;padding:.6rem .75rem;color:var(--text-secondary);border-radius:6px;font-size:.9rem}.profile-dropdown-menu a:hover{background-color:var(--bg-main);color:var(--text-primary)}.profile-dropdown-menu a i{width:16px}.divider{height:1px;background-color:var(--border-color);margin:.5rem 0}
+
+        /* NEW: Profile Prompt Banner */
+        .profile-prompt-banner{display:flex;align-items:center;gap:1rem;background-color:var(--bg-card);padding:1rem;border-radius:8px;border-left:4px solid var(--primary-yellow);margin-bottom:1rem;max-height:100px;overflow:hidden;transition:all .5s ease;animation:slideDown .5s ease-out forwards}.profile-prompt-banner.hidden{max-height:0;padding-top:0;padding-bottom:0;margin-bottom:0;opacity:0}.profile-prompt-banner i{font-size:1.5rem;color:var(--primary-yellow)}.profile-prompt-banner p{margin:0;flex-grow:1}.dismiss-btn{background:0 0;border:none;color:var(--text-secondary);font-size:1.5rem;cursor:pointer;line-height:1}.dismiss-btn:hover{color:var(--text-primary)}@keyframes slideDown{from{opacity:0;transform:translateY(-20px)}}
+        
+        .dashboard-card{background-color:var(--bg-card);padding:1rem;border-radius:8px;border:1px solid var(--border-color);backdrop-filter:blur(10px)}.welcome-banner{padding:1.25rem;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}.welcome-banner p{margin:0;font-size:.9rem}.welcome-actions{display:flex;gap:.75rem}
+        .stat-cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1rem}.stat-card{padding:1rem;border-left:3px solid var(--primary-yellow);transition:all .3s ease}.stat-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.2)}.stat-card h4{margin-bottom:.5rem}.stat-card .value{font-size:1.8rem;font-weight:700}
+        .dashboard-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem}.dashboard-column > div:not(:last-child){margin-bottom:1rem}.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}.card-header h3{margin:0}
+        .quick-actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}.action-btn{background-color:var(--bg-main);padding:1rem;border-radius:6px;text-align:center;transition:all .3s;color:var(--text-primary);font-weight:500;font-size:.85rem;border:1px solid transparent}.action-btn:hover{transform:translateY(-5px);background-color:var(--border-color);border-color:var(--primary-color);box-shadow:0 0 10px rgba(var(--primary-color-rgb),.5)}.action-btn i{display:block;font-size:1.4rem;margin-bottom:.5rem}
+        .list-item{display:flex;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border-color);transition:background-color .3s ease}.list-item:last-child{border-bottom:none}.list-item:hover{background-color:rgba(148,163,184,.1)}.list-item-content{flex-grow:1}.list-item-content p{font-weight:500;color:var(--text-primary);margin:0;font-size:.85rem}.list-item-content span{font-size:.75rem;color:var(--text-secondary)}.list-item-icon{color:var(--text-secondary);transition:transform .3s ease}.list-item:hover .list-item-icon{transform:translateX(5px);color:var(--primary-color)}
+        .view-all-link{display:block;text-align:center;margin-top:1rem;font-weight:600;font-size:.85rem}.scroll-reveal{opacity:0;transition:opacity .6s ease-out,transform .6s ease-out}.scroll-reveal.fade-in-up{transform:translateY(30px)}.scroll-reveal.visible{opacity:1;transform:translateY(0)}
+        @media (max-width:1200px){.dashboard-grid{grid-template-columns:1fr}}@media (max-width:992px){.sidebar{transform:translateX(-100%);position:fixed;z-index:1001}.main-content{margin-left:0}.stat-cards-grid{grid-template-columns:1fr 1fr}}@media (max-width:768px){.header-nav{display:none}.stat-cards-grid,.quick-actions-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+
+<div class="dashboard-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <h2>Alumni Connect</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="#"><i class="fas fa-calendar-alt"></i> Events</a>
+            <a href="#"><i class="fas fa-users"></i> Directory</a>
+            <a href="#"><i class="fas fa-link"></i> Connections</a>
+            <a href="#"><i class="fas fa-comments"></i> Messages</a>
+            <a href="#"><i class="fas fa-briefcase"></i> Post Jobs</a>
+            <a href="#"><i class="fas fa-chalkboard-teacher"></i> Mentoring</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="circular-profile-widget">
+                <div class="progress-circle" style="--progress: 75;">
+                    <span class="progress-value">75%</span>
+                </div>
+                <h4 onclick="location.href='/completeprofile_alumni'">Complete Your Profile</h4>
+                <p>Add your skills & experience.</p>
+                <a class="complete-profile-btn" style="padding: 0;"><button onclick="location.href='/completeprofile_alumni'" class="complete-profile-btn">Update Profile</button></a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="profile-prompt-banner">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Your profile is <strong>75%</strong> complete. Complete it now to get discovered by recruiters and fellow alumni!</p>
+            <a class="btn btn-primary" ><button onclick="location.href='/completeprofile_alumni'" style="background: none; font-size:large; border: none; color: white; font-weight: 90; cursor: pointer;">Update Profile</button></a>
+            
+        </div>
+
+        <header class="main-header">
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <nav class="header-nav">
+                <a href="#" class="active">Dashboard</a>
+                <a href="#">Events</a>
+                <a href="#">Directory</a>
+            </nav>
+            <div class="header-actions">
+                <i class="fas fa-bell"></i>
+                <div class="profile-dropdown">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" alt="Profile Picture" class="profile-pic">
+                    <div class="profile-dropdown-menu">
+                        <a href="#"><i class="fas fa-user-circle"></i> My Profile</a>
+                        <a href="#"><i class="fas fa-cog"></i> Account Settings</a>
+                        <div class="divider"></div>
+                        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="welcome-banner dashboard-card scroll-reveal fade-in-up">
+            <div>
+                {% if user%}
+                <h1>Good to see you, </h1>
+                <h1>{{ user[1] }}</h1>
+                {% endif %}
+                <p>What would you like to do today?</p>
+            </div>
+            <div class="welcome-actions">
+                <a href="#" class="btn btn-secondary">Post Content</a>
+                <a href="#" class="btn btn-primary">Post a Job <i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+
+        <div class="stat-cards-grid">
+            <div class="stat-card scroll-reveal fade-in-up" style="animation-delay: 0.1s;"><div class="value" data-value="12">0</div><h4>Students Mentored</h4></div>
+            <div class="stat-card scroll-reveal fade-in-up" style="animation-delay: 0.2s;"><div class="value" data-value="3">0</div><h4>Jobs Posted</h4></div>
+             <div class="stat-card scroll-reveal fade-in-up" style="animation-delay: 0.3s;"><div class="value" data-value="50">0</div><h4>Donations (K)</h4></div>
+             <div class="stat-card scroll-reveal fade-in-up" style="animation-delay: 0.4s;"><div class="value" data-value="2">0</div><h4>Events Organized</h4></div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-column dashboard-col-large">
+                <div class="dashboard-card scroll-reveal fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="card-header"><h3>Recent Job Posts</h3></div>
+                     <div>
+                        <a href="#" class="list-item"><div class="list-item-content"><p>Senior Software Engineer</p><span>Google | Bangalore, India</span></div><i class="fas fa-chevron-right list-item-icon"></i></a>
+                        <a href="#" class="list-item"><div class="list-item-content"><p>Product Manager Intern</p><span>Microsoft | Hyderabad, India</span></div><i class="fas fa-chevron-right list-item-icon"></i></a>
+                    </div>
+                    <a href="#" class="view-all-link">View All Jobs <i class="fas fa-arrow-right"></i></a>
+                </div>
+                 <div class="dashboard-card scroll-reveal fade-in-up" style="animation-delay: 0.6s;">
+                    <div class="card-header"><h3>Find Your Next Mentee</h3></div>
+                    <p>Guide the next generation by sharing your experience. Browse student profiles to find a match.</p>
+                    <a href="#" class="btn btn-primary">Explore Mentees</a>
+                </div>
+            </div>
+            <div class="dashboard-column">
+                <div class="dashboard-card scroll-reveal fade-in-up" style="animation-delay: 0.7s;">
+                     <div class="card-header"><h3>Upcoming Events</h3></div>
+                    <div>
+                        <a href="#" class="list-item"><div class="list-item-content"><p>Annual Alumni Meet 2025</p><span>15/10/2025 | College</span></div><i class="fas fa-chevron-right list-item-icon"></i></a>
+                        <a href="#" class="list-item"><div class="list-item-content"><p>Career Guidance Webinar</p><span>05/10/2025 | Virtual</span></div><i class="fas fa-chevron-right list-item-icon"></i></a>
+                    </div>
+                    <a href="#" class="view-all-link">View All Events <i class="fas fa-arrow-right"></i></a>
+                </div>
+                 <div class="dashboard-card scroll-reveal fade-in-up" style="animation-delay: 0.8s;">
+                     <div class="card-header"><h3>Quick Actions</h3></div>
+                    <div class="quick-actions-grid">
+                        <a href="#" class="action-btn"><i class="fas fa-user-friends"></i> Mentor</a>
+                        <a href="#" class="action-btn"><i class="fas fa-hand-holding-heart"></i> Give Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Profile Banner Logic ---
+        const banner = document.querySelector('.profile-prompt-banner');
+        const dismissBtn = document.querySelector('.dismiss-btn');
+        if(banner && dismissBtn) {
+            // Check if banner was already dismissed in this session
+            if (sessionStorage.getItem('bannerDismissed') === 'true') {
+                banner.style.display = 'none';
+            }
+            dismissBtn.addEventListener('click', () => {
+                banner.classList.add('hidden');
+                // Remember dismissal for this session
+                sessionStorage.setItem('bannerDismissed', 'true');
+            });
+        }
+        
+        // --- Profile Dropdown Logic ---
+        const profileDropdownToggle = document.querySelector('.profile-pic');
+        const profileDropdownMenu = document.querySelector('.profile-dropdown-menu');
+        if (profileDropdownToggle && profileDropdownMenu) {
+            profileDropdownToggle.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from bubbling up to window
+                profileDropdownMenu.classList.toggle('active');
+            });
+            window.addEventListener('click', (event) => {
+                if (!profileDropdownToggle.contains(event.target) && profileDropdownMenu.classList.contains('active')) {
+                    profileDropdownMenu.classList.remove('active');
+                }
+            });
+        }
+
+        // --- Intersection Observer for Animations ---
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    const valueEl = entry.target.querySelector('.value[data-value]');
+                    if (valueEl) {
+                        animateValue(valueEl, 0, parseInt(valueEl.getAttribute('data-value')), 1500);
+                        valueEl.removeAttribute('data-value');
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 }); // Use a lower threshold to trigger earlier
+        document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+    });
+</script>
+</body>
+</html>

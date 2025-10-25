@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Platform Dashboard</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Embedded CSS -->
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1E1E1E;
+            --bg-tertiary: #2A2A2A;
+            --border-color: #333333;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --purple-primary: #7F56D9;
+            --purple-secondary: #6941C6;
+            --purple-glow: rgba(127, 86, 217, 0.3);
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- Main Layout --- */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            position: fixed;
+            height: 100%;
+            z-index: 100;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 1.5rem 2.5rem;
+            overflow-y: auto;
+            margin-left: 260px;
+        }
+
+        /* --- Sidebar Styling --- */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .sidebar-header i {
+            font-size: 1.5rem;
+            color: var(--purple-primary);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            box-shadow: 0 0 15px var(--purple-glow);
+        }
+
+        .nav-link.active {
+            background-color: var(--purple-primary);
+            color: white;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        /* --- Top Navigation Bar --- */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            background-color: var(--bg-secondary);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-completion {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .progress-circle-container {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle, .progress-ring-circle-bg {
+            transition: stroke-dashoffset 1s ease-out;
+            stroke-linecap: round;
+        }
+
+        .progress-ring-circle-bg {
+            stroke: var(--bg-tertiary);
+        }
+
+        .progress-ring-circle {
+            stroke: var(--purple-primary);
+        }
+
+        .progress-text {
+            position: absolute;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .completion-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .completion-text span {
+            font-weight: 500;
+        }
+
+        .completion-text a {
+            font-size: 0.8rem;
+            color: var(--purple-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .search-bar input {
+            width: 100%;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 10px 10px 40px;
+            color: var(--text-primary);
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .main-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background-color: var(--bg-tertiary);
+            padding: 4px;
+            border-radius: 8px;
+        }
+
+        .tab-link {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tab-link.active, .tab-link:hover {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-actions i {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .user-actions .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--purple-primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--purple-secondary);
+        }
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- Tab Content --- */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* --- Dashboard Content Styling --- */
+        .greeting-card {
+            background: linear-gradient(90deg, var(--bg-secondary) 0%, rgba(127, 86, 217, 0.2) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        .greeting-text h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .greeting-text p {
+            color: var(--text-secondary);
+        }
+        .greeting-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-item {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .stat-item:hover {
+             transform: translateY(-5px);
+             background-color: var(--bg-tertiary);
+        }
+        .stat-item i {
+            font-size: 1.5rem;
+            color: var(--purple-primary);
+            margin-bottom: 0.5rem;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.5s ease-in-out both;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 20px var(--purple-glow);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .card-content {
+            flex-grow: 1;
+        }
+
+        /* Card Specific Styles */
+        .recent-jobs { grid-column: 1 / 2; grid-row: 1 / 3; }
+        .upcoming-events { grid-column: 2 / 3; grid-row: 1 / 3; }
+        .find-mentee { grid-column: 3 / 4; grid-row: 1 / 2; }
+        .quick-actions { grid-column: 3 / 4; grid-row: 2 / 3; }
+
+        .job-post, .event-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .job-post:last-child, .event-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+
+        .job-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .job-details h4 { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .job-details p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0; }
+        .view-all { color: var(--purple-primary); text-decoration: none; font-weight: 600; margin-top: auto; display: inline-block; padding-top: 1rem; }
+
+        .event-date {
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .event-date .month {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        .event-date .day {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .event-details h4 { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .event-details p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0; }
+
+        .find-mentee p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .action-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .action-btn:hover {
+            background-color: var(--purple-primary);
+        }
+
+        /* --- General Page Header --- */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+        .page-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* --- Events & Directory Page --- */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .directory-card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .directory-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 20px var(--purple-glow);
+        }
+        .directory-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--purple-primary);
+        }
+        .directory-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .directory-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Profile Page --- */
+        #my-profile .profile-header {
+            height: 200px;
+            background: linear-gradient(90deg, #1a202c, #2d3748);
+            border-radius: 12px;
+            position: relative;
+        }
+        #my-profile .profile-main {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5rem;
+            padding: 0 2rem;
+            transform: translateY(-50%);
+        }
+        #my-profile .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid var(--bg-primary);
+        }
+        #my-profile .profile-info h2 {
+            font-size: 2rem;
+            margin: 0;
+        }
+         #my-profile .profile-info p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        #my-profile .profile-body {
+            padding: 0 2rem 2rem 2rem;
+            margin-top: -60px; /* Adjust based on avatar size */
+        }
+        #my-profile .skills-container span {
+            background-color: var(--bg-tertiary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 5px;
+        }
+
+
+        /* --- Modals --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 600px;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .modal-header .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        .ai-group {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        .ai-group .form-group {
+            flex-grow: 1;
+        }
+        #generate-ai-btn, #suggest-ai-btn {
+            flex-shrink: 0;
+            margin-bottom: 1rem;
+        }
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--purple-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .btn .loader {
+             margin-left: 0.5rem;
+        }
+        .modal-footer {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .card, .stat-item, .greeting-card {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        /* Staggered animation delays */
+        .stats-panel .stat-item:nth-child(1) { animation-delay: 0.1s; }
+        .stats-panel .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stats-panel .stat-item:nth-child(3) { animation-delay: 0.3s; }
+        .stats-panel .stat-item:nth-child(4) { animation-delay: 0.4s; }
+        .dashboard-grid .card:nth-child(1) { animation-delay: 0.5s; }
+        .dashboard-grid .card:nth-child(2) { animation-delay: 0.6s; }
+        .dashboard-grid .card:nth-child(3) { animation-delay: 0.7s; }
+        .dashboard-grid .card:nth-child(4) { animation-delay: 0.8s; }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .recent-jobs, .upcoming-events { grid-row: auto; grid-column: auto; }
+            .main-tabs { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 0.5rem;
+                position: fixed;
+                bottom: 0;
+                z-index: 100;
+                border-right: none;
+                border-top: 1px solid var(--border-color);
+            }
+            .sidebar-header, .sidebar-footer {
+                display: none;
+            }
+            .sidebar-nav {
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+            }
+            .nav-link span { display: none; }
+            .nav-link { justify-content: center; }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem 1rem 80px 1rem; /* Padding for bottom nav */
+            }
+            .top-nav {
+                flex-wrap: wrap;
+            }
+            .search-bar {
+                order: 3;
+                flex-basis: 100%;
+            }
+            .stats-panel, .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>AlumniHub</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-link active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nav-link" data-tab="events">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Events</span>
+                </a>
+                <a class="nav-link" data-tab="directory">
+                    <i class="fas fa-address-book"></i>
+                    <span>Directory</span>
+                </a>
+                <a class="nav-link" data-tab="post-jobs">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Jobs</span>
+                </a>
+                 <a class="nav-link" data-tab="my-profile">
+                    <i class="fas fa-user"></i>
+                    <span>My Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="top-nav">
+                <div class="profile-completion">
+                    <div class="progress-circle-container">
+                        <svg class="progress-ring" width="40" height="40">
+                            <circle class="progress-ring-circle-bg" stroke-width="4" fill="transparent" r="18" cx="20" cy="20"/>
+                            <circle class="progress-ring-circle" stroke-width="4" fill="transparent" r="18" cx="20" cy="20"/>
+                        </svg>
+                        <span class="progress-text">75%</span>
+                    </div>
+                    <div class="completion-text">
+                        <span>Profile Completion</span>
+                        <a href="#">Finish your profile</a>
+                    </div>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="directory-search" placeholder="Search for alumni, jobs, events...">
+                </div>
+                <nav class="main-tabs">
+                    <a class="tab-link active" data-tab="dashboard">Dashboard</a>
+                    <a class="tab-link" data-tab="events">Events</a>
+                    <a class="tab-link" data-tab="directory">Directory</a>
+                </nav>
+                <div class="user-actions">
+                    <i class="fas fa-bell"></i>
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Profile" class="profile-pic">
+                    <button class="btn btn-primary" id="update-profile-main-btn">Update Profile</button>
+                </div>
+            </header>
+
+            <!-- Dynamic Content Area -->
+            <div id="content-area">
+                <!-- All sections are initially present but hidden except for the active one -->
+                <section id="dashboard" class="tab-content active"></section>
+                <section id="events" class="tab-content"></section>
+                <section id="directory" class="tab-content"></section>
+                <section id="post-jobs" class="tab-content"></section>
+                <section id="my-profile" class="tab-content"></section>
+
+                <!-- Placeholder tabs -->
+                <section id="connections" class="tab-content"></section>
+                <section id="messages" class="tab-content"></section>
+                <section id="mentoring" class="tab-content"></section>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <div id="post-job-modal" class="modal-overlay"></div>
+    <div id="post-content-modal" class="modal-overlay"></div>
+    <div id="post-event-modal" class="modal-overlay"></div>
+    <div id="edit-profile-modal" class="modal-overlay"></div>
+
+    <!-- Embedded JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- MOCK DATA ---
+            let currentUser = {
+                name: 'Priya Sharma',
+                title: 'Software Engineer at Google',
+                avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+                cover: 'https://images.unsplash.com/photo-1554141316-6132599e84b8?auto=format&fit=crop&w=1200&q=80',
+                bio: 'Passionate full-stack developer with expertise in building scalable web applications. Always excited to connect with students and share insights from the tech industry. Go C.O.D.E!',
+                skills: ['JavaScript', 'React', 'Node.js', 'Python', 'Cloud Computing', 'SQL']
+            };
+
+            let mockJobs = [
+                { title: 'Software Engineer II', company: 'Google', location: 'Bangalore', type: 'Full-time', icon: 'G', iconBg: '#4285F4' },
+                { title: 'Product Manager', company: 'Microsoft', location: 'Hyderabad', type: 'Full-time', icon: 'M', iconBg: '#F25022' },
+                { title: 'Data Scientist', company: 'Amazon', location: 'Pune', type: 'Internship', icon: 'A', iconBg: '#FF9900' }
+            ];
+
+            let mockEvents = [
+                { title: 'Annual Alumni Meet 2025', location: 'College Auditorium', month: 'OCT', day: '15' },
+                { title: 'Webinar: AI in FinTech', location: 'Online via Zoom', month: 'NOV', day: '02' },
+                { title: 'Startup Pitch Night', location: 'Innovation Hub', month: 'NOV', day: '18' }
+            ];
+            
+            let mockDirectory = [
+                 { name: 'Priya Sharma', title: 'Software Engineer at Google', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' },
+                 { name: 'Rohan Gupta', title: 'Product Manager at Microsoft', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026705d' },
+                 { name: 'Anjali Mehta', title: 'UX Designer at Adobe', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026706d' },
+                 { name: 'Vikram Singh', title: 'Data Scientist at Amazon', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026707d' },
+                 { name: 'Sonia Desai', title: 'Marketing Lead at Swiggy', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026708d' },
+            ];
+
+             // --- AI SIMULATION ---
+            async function callGeminiAPI(prompt, type) {
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500)); 
+
+                if (type === 'job') {
+                    return `**About the Role:**\nWe are seeking a highly motivated and skilled ${prompt.title} to join our dynamic team. In this role, you will be responsible for designing, developing, and maintaining high-quality software solutions. The ideal candidate will have a strong background in ${prompt.skills}.\n\n**Key Responsibilities:**\n- Collaborate with cross-functional teams to define, design, and ship new features.\n- Write clean, maintainable, and efficient code.\n- Troubleshoot, debug, and upgrade existing software.\n\n**Qualifications:**\n- Proven experience as a ${prompt.title} or similar role.\n- Strong proficiency in ${prompt.skills}.`;
+                }
+                if (type === 'event') {
+                     const title = `Innovate & Connect: A ${prompt.theme} Mixer`;
+                     const description = `Join us for an exclusive evening of networking and insightful discussions centered around ${prompt.theme}. This is a fantastic opportunity to connect with fellow alumni, share ideas, and explore the latest trends in the industry.`;
+                     return { title, description };
+                }
+                return "";
+            }
+
+            // --- HTML TEMPLATE FUNCTIONS ---
+            const createJobPostHTML = (job) => `<div class="job-post"><div class="job-icon" style="background-color: ${job.iconBg};">${job.icon}</div><div class="job-details"><h4>${job.title}</h4><p>${job.company}, ${job.location}</p></div></div>`;
+            const createEventItemHTML = (event) => `<div class="event-item"><div class="event-date"><span class="month">${event.month}</span><span class="day">${event.day}</span></div><div class="event-details"><h4>${event.title}</h4><p>${event.location}</p></div></div>`;
+            const createJobCardHTML = (job) => `<div class="card">${createJobPostHTML(job)}</div>`;
+            const createEventCardHTML = (event) => `<div class="card">${createEventItemHTML(event)}</div>`;
+            const createDirectoryCardHTML = (person) => `<div class="directory-card" data-name="${person.name.toLowerCase()}" data-title="${person.title.toLowerCase()}"><img src="${person.avatar}" alt="${person.name}"><h4>${person.name}</h4><p>${person.title}</p></div>`;
+            const createModalHTML = (id, title, formContent, submitText) => `<div class="modal-content"><div class="modal-header"><h3>${title}</h3><button class="close-btn" data-modal-id="${id}">&times;</button></div><form id="${id}-form">${formContent}<div class="modal-footer"><button type="button" class="btn btn-secondary close-btn" data-modal-id="${id}">Cancel</button><button type="submit" class="btn btn-primary">${submitText}</button></div></form></div>`;
+            
+            // --- RENDER FUNCTIONS ---
+            function renderAllPages() {
+                renderDashboard();
+                renderAllJobs();
+                renderAllEvents();
+                renderDirectory();
+                renderProfilePage();
+                renderPlaceholders();
+                renderModals();
+                setupEventListeners(); // Re-run to attach listeners to new elements
+            }
+
+            function renderDashboard() {
+                 const dashboardContent = document.getElementById('dashboard');
+                 dashboardContent.innerHTML = `
+                    <div class="greeting-card">
+                        <div class="greeting-text"><h2>Good to see you, ${currentUser.name}</h2><p>Let's make some connections and build your network.</p></div>
+                        <div class="greeting-actions"><button class="btn btn-secondary" data-modal-target="post-content-modal">Post Content</button><button class="btn btn-primary" data-modal-target="post-job-modal">Post a Job</button></div>
+                    </div>
+                    <div class="stats-panel"><div class="stat-item"><i class="fas fa-user-friends"></i><div class="stat-value">12</div><div class="stat-label">Students Mentored</div></div><div class="stat-item"><i class="fas fa-briefcase"></i><div class="stat-value">${mockJobs.length}</div><div class="stat-label">Jobs Posted</div></div><div class="stat-item"><i class="fas fa-donate"></i><div class="stat-value">1.5K</div><div class="stat-label">Donations</div></div><div class="stat-item"><i class="fas fa-calendar-check"></i><div class="stat-value">${mockEvents.length}</div><div class="stat-label">Events Organized</div></div></div>
+                    <div class="dashboard-grid">
+                        <div class="card recent-jobs"><h3>Recent Job Posts</h3><div class="card-content" id="dashboard-job-list">${mockJobs.slice(0, 2).map(createJobPostHTML).join('')}</div><a href="#" class="view-all" data-tab="post-jobs">View all jobs</a></div>
+                        <div class="card upcoming-events"><h3>Upcoming Events</h3><div class="card-content" id="dashboard-event-list">${mockEvents.slice(0, 2).map(createEventItemHTML).join('')}</div><a href="#" class="view-all" data-tab="events">View all events</a></div>
+                        <div class="card find-mentee"><h3>Find Your Next Mentee</h3><p>Connect with students who are looking for guidance.</p><button class="btn btn-primary" id="explore-mentees-btn">Explore Mentees</button></div>
+                        <div class="card quick-actions"><h3>Quick Actions</h3><div class="action-buttons"><button class="action-btn"><i class="fas fa-hands-helping"></i> Mentor a Student</button><button class="action-btn"><i class="fas fa-donate"></i> Give Back</button></div></div>
+                    </div>`;
+            }
+
+            function renderAllJobs() {
+                const jobContent = document.getElementById('post-jobs');
+                jobContent.innerHTML = `<div class="page-header"><div><h2>All Job Posts</h2><p>Find your next career opportunity posted by fellow alumni.</p></div><button class="btn btn-primary" data-modal-target="post-job-modal">Post New Job</button></div><div class="content-grid">${mockJobs.map(createJobCardHTML).join('')}</div>`;
+            }
+
+            function renderAllEvents() {
+                 const eventContent = document.getElementById('events');
+                 eventContent.innerHTML = `<div class="page-header"><div><h2>Upcoming Events</h2><p>Connect, learn, and network at our exclusive events.</p></div><button class="btn btn-primary" data-modal-target="post-event-modal">Post New Event</button></div><div class="content-grid">${mockEvents.map(createEventCardHTML).join('')}</div>`;
+            }
+
+            function renderDirectory() {
+                const directoryContent = document.getElementById('directory');
+                directoryContent.innerHTML = `<div class="page-header"><div><h2>Alumni Directory</h2><p>Find and connect with alumni from around the world.</p></div></div><div class="content-grid" id="directory-grid">${mockDirectory.map(createDirectoryCardHTML).join('')}</div>`;
+            }
+
+            function renderProfilePage() {
+                 const profileContent = document.getElementById('my-profile');
+                 profileContent.innerHTML = `
+                    <div class="page-header">
+                        <div><h2>My Profile</h2><p>View and manage your professional identity.</p></div>
+                        <button class="btn btn-primary" id="edit-profile-btn" data-modal-target="edit-profile-modal">Edit Profile</button>
+                    </div>
+                    <div class="profile-header" style="background-image: url(${currentUser.cover}); background-size: cover; background-position: center;"></div>
+                    <div class="profile-main">
+                        <img src="${currentUser.avatar}" alt="Profile Avatar" class="profile-avatar">
+                        <div class="profile-info">
+                            <h2>${currentUser.name}</h2>
+                            <p>${currentUser.title}</p>
+                        </div>
+                    </div>
+                    <div class="profile-body card">
+                        <h3>About</h3>
+                        <p>${currentUser.bio}</p>
+                        <h3 style="margin-top: 2rem;">Skills</h3>
+                        <div class="skills-container">
+                            ${currentUser.skills.map(skill => `<span>${skill}</span>`).join('')}
+                        </div>
+                    </div>
+                 `;
+            }
+
+            function renderPlaceholders() {
+                ['connections', 'messages', 'mentoring'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.innerHTML = `<div class="page-header"><h2>${id.charAt(0).toUpperCase() + id.slice(1)}</h2><p>This feature is coming soon!</p></div>`;
+                });
+            }
+
+            function renderModals() {
+                document.getElementById('post-job-modal').innerHTML = createModalHTML('post-job', 'Post a New Job', `
+                    <div class="form-group"><label for="job-title">Job Title</label><input type="text" id="job-title" placeholder="e.g., Senior Frontend Developer" required></div>
+                    <div class="form-group"><label for="job-company">Company</label><input type="text" id="job-company" placeholder="e.g., Your Company Inc." required></div>
+                    <div class="form-group"><label for="job-location">Location</label><input type="text" id="job-location" placeholder="e.g., Mumbai (Remote)" required></div>
+                    <div class="form-group"><label for="job-type">Job Type</label><select id="job-type"><option>Full-time</option><option>Part-time</option><option>Internship</option><option>Contract</option></select></div>
+                    <div class="form-group"><label for="job-skills">Key Skills/Responsibilities for AI</label><div class="ai-group"><div class="form-group"><input type="text" id="job-skills" placeholder="e.g., React, TypeScript, APIs"></div><button type="button" id="generate-ai-btn" class="btn btn-primary">✨ Generate with AI</button></div></div>
+                    <div class="form-group"><label for="job-description">Job Description</label><textarea id="job-description" rows="6" required></textarea></div>`, 'Post Job');
+                
+                document.getElementById('post-event-modal').innerHTML = createModalHTML('post-event', 'Create a New Event', `
+                    <div class="form-group"><label for="event-title">Event Title</label><input type="text" id="event-title" required></div>
+                    <div class="form-group"><label for="event-location">Location</label><input type="text" id="event-location" required></div>
+                    <div class="form-group"><label for="event-date">Date</label><input type="date" id="event-date" required style="color-scheme: dark;"></div>
+                    <div class="form-group"><label for="event-theme">Event Theme/Idea for AI</label><div class="ai-group"><div class="form-group"><input type="text" id="event-theme" placeholder="e.g., Tech Networking"></div><button type="button" id="suggest-ai-btn" class="btn btn-primary">✨ Suggest Ideas</button></div></div>
+                    <div class="form-group"><label for="event-description">Description</label><textarea id="event-description" rows="4"></textarea></div>`, 'Post Event');
+
+                document.getElementById('edit-profile-modal').innerHTML = createModalHTML('edit-profile', 'Edit Your Profile', `
+                    <div class="form-group"><label for="profile-name">Name</label><input type="text" id="profile-name" value="${currentUser.name}"></div>
+                    <div class="form-group"><label for="profile-title">Title</label><input type="text" id="profile-title" value="${currentUser.title}"></div>
+                    <div class="form-group"><label for="profile-bio">Bio</label><textarea id="profile-bio" rows="4">${currentUser.bio}</textarea></div>
+                    <div class="form-group"><label for="profile-skills">Skills (comma separated)</label><input type="text" id="profile-skills" value="${currentUser.skills.join(', ')}"></div>`, 'Save Changes');
+                
+                document.getElementById('post-content-modal').innerHTML = createModalHTML('post-content', 'Create a New Post', `
+                    <div class="form-group"><label for="content-text">Your Content</label><textarea id="content-text" rows="5" required></textarea></div>`, 'Post');
+            }
+
+
+            // --- EVENT HANDLING ---
+            function setupEventListeners() {
+                // Tab Switching
+                document.body.addEventListener('click', function(e) {
+                    if (e.target.closest('.tab-link, .sidebar .nav-link, .view-all')) {
+                         e.preventDefault();
+                        const tabId = e.target.closest('[data-tab]').getAttribute('data-tab');
+                        if (!tabId) return;
+
+                        document.querySelectorAll('.tab-link, .sidebar .nav-link').forEach(l => l.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                        
+                        document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(activeLink => activeLink.classList.add('active'));
+                        const activeContent = document.getElementById(tabId);
+                        if (activeContent) activeContent.classList.add('active');
+                    }
+                });
+
+                // Modal Triggers
+                document.body.addEventListener('click', function(e) {
+                    if (e.target.dataset.modalTarget) {
+                        const modal = document.getElementById(e.target.dataset.modalTarget);
+                        if (modal) modal.classList.add('active');
+                    }
+                    if (e.target.classList.contains('close-btn')) {
+                        e.target.closest('.modal-overlay').classList.remove('active');
+                    }
+                });
+                document.getElementById('update-profile-main-btn').addEventListener('click', () => document.querySelector('[data-tab="my-profile"]').click());
+
+                // Form Submissions
+                document.getElementById('post-job-form').addEventListener('submit', handleFormSubmit);
+                document.getElementById('post-event-form').addEventListener('submit', handleFormSubmit);
+                document.getElementById('edit-profile-form').addEventListener('submit', handleFormSubmit);
+                document.getElementById('post-content-form').addEventListener('submit', e => { e.preventDefault(); alert('Content posted!'); e.target.closest('.modal-overlay').classList.remove('active'); });
+
+                // AI Button Handlers
+                document.getElementById('generate-ai-btn').addEventListener('click', handleGenerateAIDescription);
+                document.getElementById('suggest-ai-btn').addEventListener('click', handleSuggestAIEvent);
+
+                // Directory Search
+                document.getElementById('directory-search').addEventListener('keyup', e => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    document.querySelectorAll('#directory-grid .directory-card').forEach(card => {
+                        const match = card.dataset.name.includes(searchTerm) || card.dataset.title.includes(searchTerm);
+                        card.style.display = match ? 'block' : 'none';
+                    });
+                });
+                
+                // Placeholder
+                 document.getElementById('explore-mentees-btn').addEventListener('click', () => alert('Feature coming soon!'));
+            }
+
+            async function handleGenerateAIDescription(e) {
+                const button = e.target;
+                const title = document.getElementById('job-title').value;
+                const skills = document.getElementById('job-skills').value;
+                if (!title || !skills) {
+                    alert('Please provide a Job Title and Key Skills first.');
+                    return;
+                }
+                
+                button.innerHTML = '<div class="loader"></div> Generating...';
+                button.disabled = true;
+
+                const description = await callGeminiAPI({ title, skills }, 'job');
+                document.getElementById('job-description').value = description;
+
+                button.innerHTML = '✨ Generate with AI';
+                button.disabled = false;
+            }
+
+            async function handleSuggestAIEvent(e) {
+                const button = e.target;
+                const theme = document.getElementById('event-theme').value;
+                 if (!theme) {
+                    alert('Please provide an Event Theme first.');
+                    return;
+                }
+
+                button.innerHTML = '<div class="loader"></div> Suggesting...';
+                button.disabled = true;
+
+                const result = await callGeminiAPI({ theme }, 'event');
+                document.getElementById('event-title').value = result.title;
+                document.getElementById('event-description').value = result.description;
+
+                button.innerHTML = '✨ Suggest Ideas';
+                button.disabled = false;
+            }
+
+            function handleFormSubmit(e) {
+                e.preventDefault();
+                const formId = e.target.id;
+
+                if (formId === 'post-job-form') {
+                    const newJob = { title: e.target.querySelector('#job-title').value, company: e.target.querySelector('#job-company').value, location: e.target.querySelector('#job-location').value, icon: e.target.querySelector('#job-company').value.charAt(0).toUpperCase(), iconBg: '#333' };
+                    mockJobs.unshift(newJob);
+                } else if (formId === 'post-event-form') {
+                    const date = new Date(e.target.querySelector('#event-date').value);
+                    const newEvent = { title: e.target.querySelector('#event-title').value, location: e.target.querySelector('#event-location').value, month: date.toLocaleString('default', { month: 'short' }).toUpperCase(), day: date.getDate() + 1 };
+                    mockEvents.unshift(newEvent);
+                } else if (formId === 'edit-profile-form') {
+                    currentUser.name = e.target.querySelector('#profile-name').value;
+                    currentUser.title = e.target.querySelector('#profile-title').value;
+                    currentUser.bio = e.target.querySelector('#profile-bio').value;
+                    currentUser.skills = e.target.querySelector('#profile-skills').value.split(',').map(s => s.trim());
+                }
+                
+                e.target.closest('.modal-overlay').classList.remove('active');
+                renderAllPages();
+            }
+
+            // --- Initial Page Load ---
+            renderAllPages();
+
+            // Progress Circle Animation
+            const circle = document.querySelector('.progress-ring-circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const percentage = 75; 
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = circumference;
+            setTimeout(() => {
+                const offset = circumference - percentage / 100 * circumference;
+                circle.style.strokeDashoffset = offset;
+            }, 500);
+
+        });
+    </script>
+</body>
+</html>

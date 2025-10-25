@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Profile - Alumni Connect</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #a855f7; 
+            --primary-color-rgb: 168, 85, 247;
+            --primary-yellow: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-main: #111827;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(51, 65, 85, 0.7);
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--font-family); 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        h1,h2,h3,h4 { line-height: 1.2; margin-bottom: 0.75rem; font-weight: 600;}
+        h1 { font-size: 1.8rem; }
+        h2 { font-size: 1.4rem; }
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:8px 16px;border-radius:6px;font-weight:600;font-size:0.85rem;transition:all .3s ease;border:none;cursor:pointer;text-decoration:none}.btn-primary{background-color:var(--primary-color);color:#fff;box-shadow:0 0 8px rgba(var(--primary-color-rgb),.4)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 15px rgba(var(--primary-color-rgb),.6)}.btn-secondary{background-color:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-color)}.btn-secondary:hover{background-color:var(--border-color);transform:translateY(-2px)}
+
+        /* --- Reused Dashboard Layout & Components --- */
+        .dashboard-layout { display: flex; min-height: 100vh; }
+        .sidebar{width:220px;background-color:var(--bg-dark);padding:1rem;display:flex;flex-direction:column;border-right:1px solid var(--border-color);position:fixed;height:100%}.sidebar-header{display:flex;align-items:center;gap:.75rem;margin-bottom:2rem}.sidebar-header .logo-icon{font-size:1.5rem;color:var(--primary-color)}.sidebar-header h2{font-size:1rem;margin:0;font-weight:600}.sidebar-nav{display:flex;flex-direction:column;gap:.25rem}.sidebar-nav a{display:flex;align-items:center;gap:1rem;padding:.6rem .75rem;border-radius:6px;color:var(--text-secondary);font-weight:500;font-size:.9rem;transition:all .3s ease}.sidebar-nav a i{width:18px;font-size:.9rem}.sidebar-nav a:hover{background-color:var(--bg-card);color:var(--text-primary);transform:translateX(5px)}.sidebar-nav a.active{background-color:var(--primary-color);color:#fff;box-shadow:0 0 15px rgba(168, 85, 247, .5);transform:translateX(5px)}
+        .main-content { flex-grow: 1; margin-left: 220px; padding: 1rem; }
+        .main-header{display:flex;justify-content:space-between;align-items:center;background-color:var(--bg-dark);padding:.75rem 1rem;border-radius:8px;border:1px solid var(--border-color);margin-bottom:1rem}.header-search{display:flex;align-items:center;background:var(--bg-main);padding:0 .5rem;border-radius:6px}.header-search i{color:var(--text-secondary)}.header-search input{background:none;border:none;outline:none;color:var(--text-primary);padding:.5rem;font-size:.9rem}.header-actions{display:flex;align-items:center;gap:1.25rem}.header-actions i{font-size:1.1rem;color:var(--text-secondary);cursor:pointer;transition:color .3s}.header-actions i:hover{color:var(--text-primary)}
+        .profile-dropdown{position:relative}.profile-pic{width:32px;height:32px;border-radius:50%;border:2px solid var(--primary-color);cursor:pointer}.profile-dropdown-menu{position:absolute;top:calc(100% + 10px);right:0;background-color:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;width:200px;box-shadow:0 10px 20px rgba(0,0,0,.2);padding:.5rem;z-index:100;opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}.profile-dropdown-menu.active{opacity:1;transform:translateY(0);pointer-events:auto}.profile-dropdown-menu a{display:flex;align-items:center;gap:1rem;padding:.6rem .75rem;color:var(--text-secondary);border-radius:6px;font-size:.9rem}.profile-dropdown-menu a:hover{background-color:var(--bg-main);color:var(--text-primary)}.profile-dropdown-menu a i{width:16px}.divider{height:1px;background-color:var(--border-color);margin:.5rem 0}
+        
+        /* --- Profile Form Specific Styles --- */
+        .form-section{background-color:var(--bg-dark);border:1px solid var(--border-color);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}.form-section h2{border-bottom:1px solid var(--border-color);padding-bottom:1rem;margin-bottom:1.5rem}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}.form-group{display:flex;flex-direction:column;gap:.5rem}.full-width{grid-column:1 / -1}.form-group label{font-weight:500;font-size:.9rem}.form-group input,.form-group textarea{background-color:var(--bg-main);border:1px solid var(--border-color);border-radius:6px;padding:.75rem;color:var(--text-primary);font-size:.9rem;transition:border-color .3s,box-shadow .3s}.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary-color);box-shadow:0 0 10px rgba(var(--primary-color-rgb),.3)}.form-group textarea{min-height:120px;resize:vertical}#interests{min-height:80px}
+        
+        /* NEW: Skills Tag Input */
+        .tag-input-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.5rem;
+            cursor: text;
+        }
+        .tag-input-container:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.3);
+        }
+        .tag-input-container .tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .tag .close-btn {
+            margin-left: 0.5rem;
+            cursor: pointer;
+            font-style: normal;
+        }
+        #skills-input {
+            flex-grow: 1;
+            border: none;
+            background: none;
+            outline: none;
+            padding: 6px;
+            color: var(--text-primary);
+        }
+        
+        /* Other Special Inputs */
+        .mentorship-toggle{display:flex;align-items:center;justify-content:space-between;background-color:var(--bg-main);padding:1rem;border-radius:8px}.toggle-switch{position:relative;display:inline-block;width:50px;height:28px}.toggle-switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:var(--border-color);transition:.4s;border-radius:28px}.slider:before{position:absolute;content:"";height:20px;width:20px;left:4px;bottom:4px;background-color:#fff;transition:.4s;border-radius:50%}input:checked+.slider{background-color:var(--primary-color)}input:checked+.slider:before{transform:translateX(22px)}
+        .gallery-upload{border:2px dashed var(--border-color);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:border-color .3s,background-color .3s}.gallery-upload:hover{background-color:var(--bg-card);border-color:var(--primary-color)}.gallery-upload i{font-size:2rem;color:var(--text-secondary);margin-bottom:1rem}
+        .form-actions{display:flex;justify-content:flex-end;gap:1rem;margin-top:1.5rem}
+        @media (max-width:992px){.sidebar{display:none}.main-content{margin-left:0}.form-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+
+<div class="dashboard-layout">
+    <aside class="sidebar"><div class="sidebar-header"><i class="fas fa-graduation-cap logo-icon"></i><h2>Alumni Connect</h2></div><nav class="sidebar-nav"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a><a href="#" class="active"><i class="fas fa-user-circle"></i> My Profile</a><a href="#"><i class="fas fa-calendar-alt"></i> Events</a><a href="#"><i class="fas fa-users"></i> Directory</a><a href="#"><i class="fas fa-comments"></i> Messages</a></nav></aside>
+
+    <main class="main-content">
+        <header class="main-header"><div class="header-search"><i class="fas fa-search"></i><input type="text" placeholder="Search..."></div><div class="header-actions"><i class="fas fa-bell"></i><div class="profile-dropdown"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" alt="Profile Picture" class="profile-pic"><div class="profile-dropdown-menu"><a href="#"><i class="fas fa-user-circle"></i> My Profile</a><a href="#"><i class="fas fa-cog"></i> Settings</a><div class="divider"></div><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></div></div></div></header>
+
+        <h1>Complete Your Profile</h1>
+
+        <form class="profile-form">
+            <div class="form-section">
+                <h2>Professional Summary</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width"><label for="designation">Designation</label><input type="text" id="designation" placeholder="e.g., Senior Software Engineer"></div>
+                    <div class="form-group full-width"><label for="location">Location</label><input type="text" id="location" placeholder="e.g., Bangalore, India"></div>
+                    <div class="form-group full-width"><label for="description">About Me / Description</label><textarea id="description" placeholder="Tell us a bit about yourself, your career, and your journey..."></textarea></div>
+                </div>
+            </div>
+
+             <div class="form-section">
+                <h2>Experience & Education</h2>
+                <div class="form-group"><label>Working Experience</label><div class="form-grid"><div class="form-group"><input type="text" placeholder="Job Title"></div><div class="form-group"><input type="text" placeholder="Company Name"></div></div></div>
+                 <div class="form-group"><label>Education</label><div class="form-grid"><div class="form-group"><input type="text" placeholder="Institution Name"></div><div class="form-group"><input type="text" placeholder="Degree (e.g., B.Tech in CSE)"></div></div></div>
+            </div>
+
+            <div class="form-section">
+                <h2>Skills & Interests</h2>
+                 <div class="form-grid">
+                     <div class="form-group full-width">
+                        <label for="skills-input">Skills (press Enter to add)</label>
+                        <div class="tag-input-container">
+                             <input type="text" id="skills-input" placeholder="Add a skill...">
+                        </div>
+                    </div>
+                    <div class="form-group full-width"><label for="interests">Personal Interests</label><textarea id="interests" placeholder="e.g., Hiking, Photography, Chess..."></textarea></div>
+                     <div class="form-group full-width"><label for="achievements">Achievements</label><textarea id="achievements" placeholder="List any notable achievements, awards, or publications..."></textarea></div>
+                </div>
+            </div>
+            
+             <div class="form-section">
+                <h2>Mentorship</h2>
+                <div class="mentorship-toggle"><label for="mentee-toggle">Open to mentoring students?</label><label class="toggle-switch"><input type="checkbox" id="mentee-toggle" checked><span class="slider"></span></label></div>
+            </div>
+
+             <div class="form-section">
+                <h2>Gallery</h2>
+                <label for="gallery-input" class="gallery-upload">
+                    <div id="gallery-feedback">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p><strong>Click to upload</strong> or drag and drop</p>
+                        <p style="font-size: 0.8rem;">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                </label>
+                <input type="file" id="gallery-input" multiple hidden>
+            </div>
+
+            <div class="form-actions"><button type="button" class="btn btn-secondary">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+        </form>
+
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Profile Dropdown Logic
+        const profileDropdownToggle = document.querySelector('.profile-pic');
+        const profileDropdownMenu = document.querySelector('.profile-dropdown-menu');
+        if (profileDropdownToggle && profileDropdownMenu) {
+            profileDropdownToggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                profileDropdownMenu.classList.toggle('active');
+            });
+            window.addEventListener('click', (event) => {
+                if (!profileDropdownToggle.contains(event.target) && profileDropdownMenu.classList.contains('active')) {
+                    profileDropdownMenu.classList.remove('active');
+                }
+            });
+        }
+
+        // --- NEW: Skills Tag Input Logic ---
+        const tagContainer = document.querySelector('.tag-input-container');
+        const tagInput = document.getElementById('skills-input');
+
+        if (tagContainer && tagInput) {
+            tagContainer.addEventListener('click', () => {
+                tagInput.focus();
+            });
+
+            tagInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' && tagInput.value.trim() !== '') {
+                    event.preventDefault(); // Prevent form submission
+                    createTag(tagInput.value.trim());
+                    tagInput.value = ''; // Clear the input
+                }
+            });
+
+            function createTag(label) {
+                const tag = document.createElement('div');
+                tag.classList.add('tag');
+                tag.innerHTML = `
+                    ${label}
+                    <i class="close-btn" onclick="removeTag(this)">&times;</i>
+                `;
+                // Insert the new tag before the input field
+                tagContainer.insertBefore(tag, tagInput);
+            }
+
+            // Make removeTag globally accessible for the inline onclick
+            window.removeTag = function(element) {
+                 element.parentElement.remove();
+            }
+        }
+
+        // --- NEW: Gallery File Upload Logic ---
+        const galleryInput = document.getElementById('gallery-input');
+        const galleryFeedback = document.getElementById('gallery-feedback');
+
+        if (galleryInput && galleryFeedback) {
+            galleryInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    let fileNames = Array.from(this.files).map(file => file.name).join(', ');
+                    galleryFeedback.innerHTML = `<p>Selected: <strong>${fileNames}</strong></p>`;
+                } else {
+                    galleryFeedback.innerHTML = `
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p><strong>Click to upload</strong> or drag and drop</p>
+                        <p style="font-size: 0.8rem;">PNG, JPG, GIF up to 10MB</p>
+                    `;
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
