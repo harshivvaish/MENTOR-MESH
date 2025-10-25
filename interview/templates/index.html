@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro-Internship Application</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Base styles for demonstration --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827; /* Darker page background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* --- Main Form Container --- */
+        /* This replaces your inline styles for better management */
+        .internship-form-container {
+            background: linear-gradient(145deg, #2a3a50, #1e293b);
+            color: #e2e8f0;
+            padding: 40px 50px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        /* --- Typography --- */
+        .internship-form-container h2 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .internship-form-container p {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        /* --- Form Labels --- */
+        .form-label {
+            display: block;
+            text-align: left;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        /* --- General Input & Select Styling --- */
+        .form-control, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #334155;
+            border: 2px solid #475569;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* Remove default arrow for select */
+        .form-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+        }
+        
+        /* --- Custom File Input Button --- */
+        .form-control[type="file"]::file-selector-button {
+            background-color: #475569;
+            color: #e2e8f0;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            margin-right: 12px;
+            transition: background-color 0.2s ease;
+        }
+
+        .form-control[type="file"]::file-selector-button:hover {
+            background-color: #596a82;
+        }
+
+        /* --- Margin Bottom Utility classes from your code --- */
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+
+        /* --- Submit Button --- */
+        .btn-primary {
+            background: linear-gradient(90deg, #38bdf8, #6366f1);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="internship-form-container">
+        <h2>Apply for a Micro-Internship</h2>
+        <p>Upload your resume to receive AI-generated interview questions.</p>
+        <form action="{{ url_for('resume_sub') }}" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="resume" class="form-label">Upload Your Resume (PDF)</label>
+                <input class="form-control" type="file" id="resume" name="resume" accept=".pdf" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="college_year" class="form-label">Select Your Current College Year</label>
+                <select class="form-select" id="college_year" name="college_year" required>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year" selected>3rd Year</option>
+                    <option value="4th Year / Final Year">4th Year / Final Year</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Get My Interview Questions</button>
+        </form>
+    </div>
+
+</body>
+</html>
